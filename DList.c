@@ -30,13 +30,15 @@ DListNode* BuyDLiatNode(int val)
 	newNode->prev = NULL;
 }
 
-//创建节点
+//创建链表
+//带头结点的链表
 
 DListNode* CreatDlist(DListNode* head, int val)
 {
 	DListNode* head = BuyDLiatNode(val);
 	head->next = head;
 	head->prev - head;
+
 	return head;
 }
 
@@ -50,8 +52,13 @@ void DListPushBack(DListNode* head, int val)
 	}
 	DListNode* newNode = BuyDLiatNode(val);
 
+	//在不断开原链表的情况下将新节点连接到链表中
+
 	newNode->prev = head->prev;
 	newNode->next = head;
+
+	//断开原链表
+
 	newNode->prev->next = newNode;
 	head->prev = newNode;
 }
@@ -85,4 +92,46 @@ void DListPopBack(DListNode* head)
 	head->prev = pos->prev;
 	pos->prev->next = head;
 	free(pos);
+}
+
+
+void DListPushFront(DListNode* head, int val)
+{
+
+}
+void DListPopFront(DListNode* head, int val)
+{
+
+}
+DListNode* DListFind(DListNode* head, int val)
+{
+
+}
+
+//任意位置的插入
+//插入在pos的前面
+
+void DListInsert(DListNode* pos, int val)
+{
+	DListNode* newNode = BuyDLiatNode(val);
+
+	newNode->prev = pos->prev;
+	newNode->next = pos;
+	newNode->prev->next = newNode;
+	pos->prev = newNode;
+
+
+}
+
+//任意节点的删除
+
+void DListErase(DListNode* pos)
+{
+	pos->prev->next = pos->next;
+	pos->next->prev = pos->prev;
+	free(pos);
+}
+void DListDestroy(DListNode** head)
+{
+
 }
