@@ -751,3 +751,79 @@ struct ListNode* getIntersectionNode(struct ListNode* headA, struct ListNode* he
 
 	return curA;
 }
+
+//删除排序链表中的重复元素
+
+//方法一：从头开始直接一个个的遍历
+//遇到相同的，直接指向下一个开始比较
+//不好处就是跳过的节点并未释放，会造成内存泄漏
+
+struct ListNode* deleteDuplicates(struct ListNode* head) {
+	struct ListNode* res = head;
+	if (head == NULL || head->next == NULL) {
+		return head;
+	}
+	while (head->next != NULL) {
+		if (head->val == head->next->val) {
+			head->next = head->next->next;
+		}
+		else {
+			head = head->next;
+		}
+	}
+	return res;
+}
+
+//方法二：用fast和slow的俩个指针来确定有重复数据的数据段
+//然后一个个的释放，直到遍历完整个链表
+//无内存泄露问题
+
+struct ListNode* deleteDuplicates(struct ListNode* head) {
+	Node* slow = head;
+	Node* prev = NULL;
+
+	if (head == NULL || head->next == NULL)
+	{
+		return head;
+	}
+
+	while (slow)
+	{
+		Node* fast = slow->next;
+		while (fast)
+		{
+			if (slow->val == fast->val)
+			{
+				fast = fast->next;
+			}
+			else
+			{
+				break;
+			}
+		}
+		if (slow->next == fast)
+		{
+			prev = slow;
+			slow = slow->next;
+		}
+		else
+		{
+			while (slow->next != fast)
+			{
+				if (slow == head)
+				{
+					head = head->next;
+					free(slow);
+					slow = head;
+				}
+				else
+				{
+					prev->next = slow->next;
+					free(slow);
+					slow = prev->next;
+				}
+			}
+		}
+	}
+	return head;
+}
