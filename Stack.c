@@ -23,7 +23,7 @@ void CheckCapacity(Stack* ps)
 
 		int newCapacity = ps->capacity * 2;
 		DataType* temp = (DataType*)malloc(sizeof(DataType) * newCapacity);
-		
+
 		if (temp)
 		{
 			//¿½±´ÔªËØ
@@ -40,7 +40,7 @@ void CheckCapacity(Stack* ps)
 
 			free(ps->array);
 			ps->array = temp;
-			ps->capacity == newCapacity;
+			ps->capacity = newCapacity;
 		}
 	}
 }
@@ -101,4 +101,6 @@ void StackDestory(Stack* ps)
 {
 	assert(ps);
 	free(ps->array);
+	ps->capacity = 0;
+	ps->size = 0;
 }
