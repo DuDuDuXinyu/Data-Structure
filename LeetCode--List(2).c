@@ -435,3 +435,56 @@ struct ListNode* insertionSortList(struct ListNode* head)
 
      return head;
  }
+
+ //重排链表---l1->l2->l3->l4
+ //排完序之后---l1->l4->l3->l4
+
+ void reorderList(struct ListNode* head) {
+
+	 //不需要移动的情况
+
+	 if (head == NULL || head->next == NULL || head->next->next == NULL)
+	 {
+		 return head;
+	 }
+
+	 //找到中间值
+
+	 Node* fast = head;
+	 Node* slow = head;
+	 while (fast && fast->next)
+	 {
+		 slow = slow->next;
+		 fast = fast->next->next;
+	 }
+
+	 //逆置后半部分
+
+
+	 Node* cur = slow->next;
+	 slow->next = NULL;
+	 Node* newNode = NULL;
+	 while (cur)
+	 {
+		 Node* next = cur->next;
+		 cur->next = newNode;
+		 newNode = cur;
+		 cur = next;
+	 }
+
+	 //开始插入
+
+	 cur = head;
+	 while (newNode)
+	 {
+		 Node* newNext = newNode->next;
+		 Node* curNext = cur->next;
+
+		 //连接
+
+		 cur->next = newNode;
+		 newNode->next = curNext;
+		 cur = curNext;
+		 newNode = newNext;
+	 }
+ }
