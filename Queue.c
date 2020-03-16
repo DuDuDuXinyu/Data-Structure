@@ -3,6 +3,24 @@
 #include <assert.h>
 #include <malloc.h>
 
+typedef int QDataType;
+
+//队列底层使用链表中节点的结构
+
+typedef struct QNode
+{
+	struct QNode* next;
+	QDataType val;
+}QNode;
+
+typedef struct Queue
+{
+	struct QNode* head;
+	struct QNode* rear;
+	int _size;//记录队列中有效元素的个数
+}Queue;
+
+//开辟空间
 
 QNode* BuyQNode(int val)
 {
