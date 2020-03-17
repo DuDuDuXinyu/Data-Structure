@@ -827,3 +827,74 @@ struct ListNode* deleteDuplicates(struct ListNode* head) {
 	}
 	return head;
 }
+
+//拼写单词
+
+//方法一：建立一个数组存放库字符串中对应字母有的个数，然后一个个的比
+
+int countCharacters(char** words, int wordsSize, char* chars) 
+{
+	int charsSize = strlen(chars);
+	int i = 0, k = 0, maxlong = 0;
+
+	
+
+	while (wordsSize--)
+	{
+		//注意这里的数组count需要初始化一下，不然没赋值的地方的数字就是不确定的
+
+		int i = 0, count[26] = { 0 }, j = 0;
+		
+		//用数组来统计chars中的元素
+
+		//这种方法不知道为什么就会在count的参数报错，说是越界
+		// while(charsSize--)
+		// {
+		//     char c=chars[i];
+		//     count[c-'a']++;
+		//     i++;
+		// } 
+
+		for (i = 0; i < charsSize; i++) {
+			char c = chars[i];
+			count[c - 'a']++;
+		}
+
+		//开始和二维数字进行比较
+
+		i = k;
+		while (words[i][j] != '\0')
+		{
+			//找到该字符对应的位置
+
+			int num = words[i][j] - 'a';
+
+			//判断库中是否还是该字符
+
+			if (count[num] == 0)
+			{
+				//没有退出该次循环
+
+				break;
+			}
+
+			//存在的话，则减少一次
+
+			count[num]--;
+
+			//带匹配的数组继续往后走
+
+			j++;
+		}
+
+		//判断是什么原因退出的循环
+
+		if (words[i][j] == '\0')
+		{
+			maxlong += j;
+		}
+		k++;
+	}
+
+	return maxlong;
+}
