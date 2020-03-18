@@ -3,24 +3,6 @@
 #include <assert.h>
 #include <malloc.h>
 
-typedef int QDataType;
-
-//队列底层使用链表中节点的结构
-
-typedef struct QNode
-{
-	struct QNode* next;
-	QDataType val;
-}QNode;
-
-typedef struct Queue
-{
-	struct QNode* head;
-	struct QNode* rear;
-	int _size;//记录队列中有效元素的个数
-}Queue;
-
-//开辟空间
 
 QNode* BuyQNode(int val)
 {
@@ -64,15 +46,24 @@ void QueuePush(Queue* q, QDataType val)
 //出队列
 
 void QueuePop(Queue* q)
-{	
+{
+	QNode* pDelNode = NULL;
 	if (QueueEmpty(q))
 	{
 		return;
 	}
-	
+
 	QNode* pDelNode = NULL;
 	pDelNode = q->head->next;
 	q->head->next = pDelNode->next;
+
+	if (NULL == q->head->next)
+	{
+		q->rear = q->head;
+	}
+
+	free(pDelNode);
+	q->_size--;
 }
 
 //获取队列中有效元素的个数
@@ -103,9 +94,27 @@ QDataType QueueFront(Queue* q)
 
 //获取队尾元素
 
-QDataType QueueBack(Queue* q) 
+QDataType QueueBack(Queue* q)
 {
 	assert(!QueueEmpty(q));
 
 	return q->rear->val;
+}
+
+//销毁队列
+
+void QueueDestroy(Queue* q)
+{
+	//采用头删法将链表中的有效节点和头结点全部删除
+
+	QNode* cur = NULL;
+	while (cur)
+	{
+		q->head = cur->next;
+		free(cur);
+		cur = q->head;
+	}
+
+	q->head = NULL;
+	q->head = NULL;
 }
