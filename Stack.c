@@ -91,7 +91,7 @@ int StackSize(Stack* ps)
 
 int StackEmpty(Stack* ps)
 {
-	asseert(ps);
+	assert(ps);
 	return 0 == ps->size;
 }
 
