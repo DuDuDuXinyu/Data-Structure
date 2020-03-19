@@ -119,7 +119,7 @@ void QueueDestroy(Queue* q)
 {
 	//采用头删法将链表中的有效节点和头结点全部删除
 
-	QNode* cur = NULL;
+	QNode* cur = q->head;
 	while (cur)
 	{
 		q->head = cur->next;
@@ -128,7 +128,7 @@ void QueueDestroy(Queue* q)
 	}
 
 	q->head = NULL;
-	q->head = NULL;
+	q->rear = NULL;
 }
 
 
