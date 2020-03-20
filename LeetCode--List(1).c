@@ -898,3 +898,50 @@ int countCharacters(char** words, int wordsSize, char* chars)
 
 	return maxlong;
 }
+
+//最小的k个数
+//说白了就是一个排序
+
+//自己写一个快排
+//为什么写快排是因为快排的效率高
+//如果用冒泡的话则会面对大数据量的时候运行时间会很久
+
+void sort(int* arr, int left, int right)
+{
+	if (left > right)
+	{
+		return;
+	}
+	int i = left;
+	int j = right;
+	int temp = arr[left];
+	while (i < j)
+	{
+		while (i < j && temp <= arr[j])
+		{
+			j--;
+		}
+		arr[i] = arr[j];
+		while (i < j && temp >= arr[i])
+		{
+			i++;
+		}
+		arr[j] = arr[i];
+	}
+	arr[i] = temp;
+	sort(arr, left, i - 1);
+	sort(arr, i + 1, right);
+}
+
+//主函数调用，malloc在堆上开辟空间，赋值返回即可
+
+int* getLeastNumbers(int* arr, int arrSize, int k, int* returnSize) {
+	sort(arr, 0, arrSize - 1);
+	*returnSize = k;
+	int* array = (int*)malloc(sizeof(int) * k);
+	for (int i = 0; i < k; i++)
+	{
+		array[i] = arr[i];
+	}
+	return array;
+}
