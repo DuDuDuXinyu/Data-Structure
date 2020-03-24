@@ -1,5 +1,5 @@
-
-//¶àÊıÔªËØ--->ÕÒ³ö¸ø¶¨Êı×éÖĞµÄ³öÏÖ´ÎÊı´óÓÚÒ»°ëµÄÊı¾İ
+ï»¿
+//å¤šæ•°å…ƒç´ --->æ‰¾å‡ºç»™å®šæ•°ç»„ä¸­çš„å‡ºç°æ¬¡æ•°å¤§äºä¸€åŠçš„æ•°æ®
 
 int majorityElement(int* nums, int numsSize)
 {
@@ -7,7 +7,7 @@ int majorityElement(int* nums, int numsSize)
 	int arr = nums[0];
 	for (int i = 1; i < numsSize; i++)
 	{
-		//Óö¼ûÏàÍ¬µÄ¼ÆÊıÆ÷+1£¬²»Í¬µÄ-1
+		//é‡è§ç›¸åŒçš„è®¡æ•°å™¨+1ï¼Œä¸åŒçš„-1
 
 		if (arr == nums[i])
 		{
@@ -18,7 +18,7 @@ int majorityElement(int* nums, int numsSize)
 			count--;
 		}
 
-		//Îª0ÔòÊÇËµÃ÷arrËùÖ¸µÄÊı¾İ²»¹»Ò»°ë£¬ËùÒÔ¾ÍÈÃarrÖ¸ÏòiµÄÏÂÒ»¸ö
+		//ä¸º0åˆ™æ˜¯è¯´æ˜arræ‰€æŒ‡çš„æ•°æ®ä¸å¤Ÿä¸€åŠï¼Œæ‰€ä»¥å°±è®©arræŒ‡å‘içš„ä¸‹ä¸€ä¸ª
 
 		if (0 == count)
 		{
@@ -26,4 +26,26 @@ int majorityElement(int* nums, int numsSize)
 		}
 	}
 	return arr;
+}
+
+//æ•°ç»„æ‹†åˆ†
+//ç»™å®šé•¿åº¦ä¸ºÂ 2nÂ çš„æ•°ç»„, ä½ çš„ä»»åŠ¡æ˜¯å°†è¿™äº›æ•°åˆ†æˆÂ n å¯¹
+//ä¾‹å¦‚ (a1, b1), (a2, b2)ï¼Œ...ï¼Œ(an, bn)
+//ä½¿å¾—ä»1 åˆ°Â n çš„ min(ai, bi) æ€»å’Œæœ€å¤§
+
+
+int cmp(int* a, int* b) {
+	return *a > * b;
+}
+int arrayPairSum(int* nums, int numsSize) {
+	int i, j;
+	int sum = 0;
+	if (numsSize < 2) {
+		return 0;
+	}
+	qsort(nums, numsSize, sizeof(int), cmp);
+	for (sum = nums[0], i = 2; i < numsSize; i = i + 2) {
+		sum += nums[i];
+	}
+	return sum;
 }
