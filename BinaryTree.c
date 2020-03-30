@@ -227,6 +227,7 @@ void BinaryTreeLevelOrder(BTNode* root)
 }
 
 //¾µÏñ¶þ²æÊ÷
+//µÝ¹é
 
 void MirrorBinTree(BTNode* root)
 {
@@ -240,6 +241,8 @@ void MirrorBinTree(BTNode* root)
 		MirrorBinTree(root->pright);
 	}
 }
+
+//²»µÝ¹éµÄ¾µÏñ¶þ²æÊ÷
 
 void MirrorBinTree(BTNode* root)
 {
