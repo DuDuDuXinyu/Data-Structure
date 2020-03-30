@@ -30,10 +30,20 @@ BTNode* BuyBinTreeNode(BTDateType val)
 	pNewNode->val = val;
 }
 
-BTNode* GreatBinTree(int* array, int size)
-{
-	BTNode* root = BuyBinTreeNode(array[0]);
+//创建二叉树
 
+BTNode* GreatBinTree(int* array, int size, int* index, BTDateType invalid)
+{
+	BTNode* root = NULL;
+	if (*index < size && array[*index] != invalid)
+	{
+		root = BuyBinTreeNode(array[*index]);
+		++(*index);
+		root->pleft = GreatBinTree(array, size, index, invalid);
+		++(*index);
+		root->pright = GreatBinTree(array, size, index, invalid);
+	}
+	return root;
 }
 
 //先序（深度优先遍历）
@@ -224,10 +234,10 @@ void BinaryTreeLevelOrder(BTNode* root)
 		}
 	}
 	printf("\n");
+	QueueDestroy(&q);
 }
 
 //镜像二叉树
-//递归
 
 void MirrorBinTree(BTNode* root)
 {
@@ -241,8 +251,6 @@ void MirrorBinTree(BTNode* root)
 		MirrorBinTree(root->pright);
 	}
 }
-
-//不递归的镜像二叉树
 
 void MirrorBinTree(BTNode* root)
 {
@@ -265,4 +273,53 @@ void MirrorBinTree(BTNode* root)
 		if (cur->pright)
 			QueuePush(&q, cur->pright);
 	}
+	QueueDestroy(&q);
+}
+
+//判断一个二叉树是不是完全二叉树
+
+bool BinaryTreeComplete(BTNode* root)
+{
+
+	int judegChild = 1;
+	if (NULL == root)
+		return true;
+	Queue q;
+	QueueInit(&q);
+	QueuePush(&q, root);
+
+	while (!QueueEmpty(&q))
+	{
+		BTNode* cur = QueueFront(&q);
+		QueuePop(&q);
+
+		if (!judegChild)
+		{
+			//不饱和节点以及找到，从该节点之后就不能有孩子
+
+			if (cur->pleft && cur->pright)
+				QueueDestroy(&q);
+			return false;
+		}
+		else
+		{
+			if (cur->pleft && cur->pright)
+			{
+				QueuePush(&q, cur->pleft);
+				QueuePush(&q, cur->pright);
+			}
+			else if (cur->pleft)
+			{
+				judegChild = 0;
+				QueuePush(&q, cur->pleft);
+			}
+			else if (cur->pright)
+				QueueDestroy(&q);
+			return false;
+			else
+				judegChild = 0;
+		}
+	}
+	QueueDestroy(&q);
+	return true;
 }
