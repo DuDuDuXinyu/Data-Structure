@@ -30,6 +30,12 @@ BTNode* BuyBinTreeNode(BTDateType val)
 	pNewNode->val = val;
 }
 
+BTNode* GreatBinTree(int* array, int size)
+{
+	BTNode* root = BuyBinTreeNode(array[0]);
+
+}
+
 //先序（深度优先遍历）
 
 void PreOrder(BTNode* root)
@@ -218,4 +224,42 @@ void BinaryTreeLevelOrder(BTNode* root)
 		}
 	}
 	printf("\n");
+}
+
+//镜像二叉树
+
+void MirrorBinTree(BTNode* root)
+{
+	if (root)
+	{
+		BTNode* temp = root->pleft;
+		root->pleft = root->pright;
+		root->pright = temp;
+
+		MirrorBinTree(root->pleft);
+		MirrorBinTree(root->pright);
+	}
+}
+
+void MirrorBinTree(BTNode* root)
+{
+	Queue q;
+	if (NULL == root)
+		return;
+	QueueInit(&q);
+	QueuePush(&q, root);
+	while (!QueueEmpty(&q))
+	{
+		BTNode* cur = QueueFront(&q);
+		QueuePop(&q);
+
+		BTNode* temp = cur->pleft;
+		cur->pleft = cur->pright;
+		cur->pright = temp;
+
+		if (cur->pleft)
+			QueuePush(&q, cur->pleft);
+		if (cur->pright)
+			QueuePush(&q, cur->pright);
+	}
 }
