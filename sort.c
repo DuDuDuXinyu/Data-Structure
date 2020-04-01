@@ -168,6 +168,7 @@ void SelectSorOP(int* arr, int size)
 
 		if(maxpos!=end)
 			Swap(&arr[maxpos], &arr[end]);
+
 		if (minpos != end)
 			Swap(&arr[minpos], &arr[begin]);
 
