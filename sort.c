@@ -74,6 +74,32 @@ void InSertSort(int* arr, int size)
 	}
 }
 
+void ShellSort(int* arr, int size)
+{
+	int gap = 3;
+	while (gap >= 1)
+	{
+		for (int i = gap; i < size; i++)
+		{
+			int key = arr[i];
+			int end = i - gap;
+
+			//找待插入数据位置
+
+			while (end >= 0 && arr[end] > key)
+			{
+				arr[end + gap] = arr[end];
+				end -= gap;
+			}
+
+			//插入数据
+
+			arr[end + gap] = key;
+		}
+		gap--;
+	}
+}
+
 //快速排序
 
 void fast_sort(int* arr, int left, int right)
@@ -102,4 +128,50 @@ void fast_sort(int* arr, int left, int right)
 	arr[i] = temp;
 	fast_sort(arr, left, i - 1);
 	fast_sort(arr, i + 1, right);
+}
+
+//选择排序
+
+void SelectSort(int* arr, int size)
+{
+	for (int i = 0; i < size - 1; i++)
+	{
+		int maxpos = 0;
+		for (int j = 1; j < size - 1; j++)
+		{
+			if (arr[j] > arr[maxpos])
+				maxpos = j;
+		}
+
+		if (maxpos != size - 1 - i)
+			Swap(&arr[maxpos], &arr[size - 1 - i]);
+	}
+}
+
+void SelectSorOP(int* arr, int size)
+{
+	int begin = 0, end = size - 1;
+	while (begin < end)
+	{
+		int minpos = begin;
+		int maxpos = begin;
+		int index = begin + 1;
+		while (index <= end)
+		{
+			if (arr[index] < arr[minpos])
+				minpos = index;
+			if (arr[index] > arr[maxpos])
+				maxpos = index;
+
+			index++;
+		}
+
+		if(maxpos!=end)
+			Swap(&arr[maxpos], &arr[end]);
+		if (minpos != end)
+			Swap(&arr[minpos], &arr[begin]);
+
+		begin++;
+		end--;
+	}
 }
