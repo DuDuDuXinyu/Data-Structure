@@ -1,5 +1,15 @@
 #include <stdio.h>
 
+//打印数组
+
+void PrintArray(int* arr, int len)
+{
+	int i = 0;
+	while (i < len)
+		printf("%d ", arr[i]);
+	printf("\n");
+}
+
 //冒泡排序
 
 void bubble_sort(int* arr,int len)
@@ -23,9 +33,9 @@ void bubble_sort(int* arr,int len)
 
 //插入排序
 
-void insertion_sort(int* arr, int len)
+void insertion_sort(int* arr, int size)
 {
-	for (int i = 1; i < len; i++)
+	for (int i = 1; i < size; i++)
 	{
 		int temp = arr[i];
 		int j = i - 1;
@@ -38,6 +48,29 @@ void insertion_sort(int* arr, int len)
 		{
 			arr[j + 1] = temp;
 		}
+	}
+}
+
+//插入排序
+
+void InSertSort(int* arr, int size)
+{
+	for (int i = 0; i < size; i++)
+	{
+		int key = arr[i];
+		int end = i - 1;
+
+		//找待插入数据位置
+
+		while (end >= 0 && arr[end] > key)
+		{
+			arr[end + 1] = arr[end];
+			end--;
+		}
+
+		//插入数据
+
+		arr[end + 1] = key;
 	}
 }
 
