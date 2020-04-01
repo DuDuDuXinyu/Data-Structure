@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-//´òÓ¡Êı×é
+//æ‰“å°æ•°ç»„
 
 void PrintArray(int* arr, int len)
 {
@@ -10,7 +10,7 @@ void PrintArray(int* arr, int len)
 	printf("\n");
 }
 
-//Ã°ÅİÅÅĞò
+//å†’æ³¡æ’åº
 
 void bubble_sort(int* arr,int len)
 {
@@ -19,7 +19,7 @@ void bubble_sort(int* arr,int len)
 		int j = 0;
 		for (; j < len - 1 - i; j++)
 		{
-			//µ¹Ğğ
+			//å€’å™
 
 			if (arr[j] > arr[j + 1])
 			{
@@ -31,7 +31,7 @@ void bubble_sort(int* arr,int len)
 	}
 }
 
-//²åÈëÅÅĞò
+//æ’å…¥æ’åº
 
 void insertion_sort(int* arr, int size)
 {
@@ -51,7 +51,7 @@ void insertion_sort(int* arr, int size)
 	}
 }
 
-//²åÈëÅÅĞò
+//æ’å…¥æ’åº
 
 void InSertSort(int* arr, int size)
 {
@@ -60,7 +60,7 @@ void InSertSort(int* arr, int size)
 		int key = arr[i];
 		int end = i - 1;
 
-		//ÕÒ´ı²åÈëÊı¾İÎ»ÖÃ
+		//æ‰¾å¾…æ’å…¥æ•°æ®ä½ç½®
 
 		while (end >= 0 && arr[end] > key)
 		{
@@ -68,7 +68,7 @@ void InSertSort(int* arr, int size)
 			end--;
 		}
 
-		//²åÈëÊı¾İ
+		//æ’å…¥æ•°æ®
 
 		arr[end + 1] = key;
 	}
@@ -84,7 +84,7 @@ void ShellSort(int* arr, int size)
 			int key = arr[i];
 			int end = i - gap;
 
-			//ÕÒ´ı²åÈëÊı¾İÎ»ÖÃ
+			//æ‰¾å¾…æ’å…¥æ•°æ®ä½ç½®
 
 			while (end >= 0 && arr[end] > key)
 			{
@@ -92,7 +92,7 @@ void ShellSort(int* arr, int size)
 				end -= gap;
 			}
 
-			//²åÈëÊı¾İ
+			//æ’å…¥æ•°æ®
 
 			arr[end + gap] = key;
 		}
@@ -100,7 +100,7 @@ void ShellSort(int* arr, int size)
 	}
 }
 
-//¿ìËÙÅÅĞò
+//å¿«é€Ÿæ’åº
 
 void fast_sort(int* arr, int left, int right)
 {
@@ -130,7 +130,7 @@ void fast_sort(int* arr, int left, int right)
 	fast_sort(arr, i + 1, right);
 }
 
-//Ñ¡ÔñÅÅĞò
+//é€‰æ‹©æ’åº
 
 void SelectSort(int* arr, int size)
 {
