@@ -49,3 +49,35 @@ int arrayPairSum(int* nums, int numsSize) {
 	}
 	return sum;
 }
+
+//数组序号转换
+//一个数组arr，然后将arr数组中的数据改为其数据在arr中的位置
+//使得序号和尽量的小
+
+typedef struct {
+	int val;
+	int index;
+}Data;
+int cmp(const void* a, const void* b)
+{
+	return ((Data*)a)->val - ((Data*)b)->val;
+}
+int* arrayRankTransform(int* arr, int arrSize, int* returnSize) {
+	int i, cnt = 0;
+	Data* nums = (Data*)calloc(arrSize, sizeof(Data));
+	*returnSize = arrSize;
+	for (i = 0; i < arrSize; ++i)
+	{
+		nums[i].val = arr[i];
+		nums[i].index = i;
+	}
+	qsort(nums, arrSize, sizeof(Data), cmp);
+	for (i = 0; i < arrSize; ++i)
+	{
+		if (i == 0 || nums[i].val != nums[i - 1].val)
+			arr[nums[i].index] = ++cnt;
+		else if (nums[i].val == nums[i - 1].val)
+			arr[nums[i].index] = cnt;
+	}
+	return arr;
+}
