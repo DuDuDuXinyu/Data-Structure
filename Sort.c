@@ -301,9 +301,11 @@ int Partion1(int* array, int left, int right)
 {
 	int begin = left;
 	int end = right - 1;
+	int mid = GetIndexMid(array, left, right);
 
 	//找一个基准值，把数据分为俩部分
 
+	Swap(&array[mid], &array[right - 1]);
 	int key = array[end];
 	
 	while (begin < end)
@@ -335,9 +337,11 @@ int Partion2(int* array, int left, int right)
 {
 	int begin = left;
 	int end = right - 1;
+	int mid = GetIndexMid(array, left, right);
 
 	//找一个基准值，把数据分为俩部分
 
+	Swap(&array[mid], &array[right - 1]);
 	int key = array[end];
 
 	while (begin < end)
@@ -377,6 +381,11 @@ int Partion3(int* array, int left, int right)
 {
 	int cur = left;
 	int prev = left - 1;
+	int mid = GetIndexMid(array, left, right);
+
+	//找一个基准值，把数据分为俩部分
+
+	Swap(&array[mid], &array[right - 1]);
 	int key = array[right-1];
 
 	while (cur < right)
