@@ -10,6 +10,15 @@ void PrintArray(int* arr, int len)
 	printf("\n");
 }
 
+//交换
+
+void Swap(int* a, int* b)
+{
+	int temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
 //冒泡排序
 
 void bubble_sort(int* arr,int len)
@@ -194,13 +203,6 @@ void SelectSorOP(int* arr, int size)
 
 //堆排序
 
-void Swap(int* a, int* b)
-{
-	int temp = *a;
-	*a = *b;
-	* b = temp;
-}
-
 void HeapADjust(int* array, int size, int parent)
 {
 	//优先标记左孩子->因为堆实际是完全二叉树
@@ -276,10 +278,32 @@ void BubbleSort(int* array, int size)
 
 //快排
 
-int Partion(int* array, int left, int right)
+//三个数取值为中间的数字
+
+int GetIndexMid(int* array, int left, int right)
+{
+	int mid = left + ((right - left) >> 1);
+
+	if (array[left] < array[right - 1])
+	{
+		if (array[mid] < array[left])
+			return left;
+		else if (array[mid] > array[right - 1])
+			return right - 1;
+		else
+			return mid;
+	}
+}
+
+//交换法
+
+int Partion1(int* array, int left, int right)
 {
 	int begin = left;
 	int end = right - 1;
+
+	//找一个基准值，把数据分为俩部分
+
 	int key = array[end];
 	
 	while (begin < end)
@@ -305,8 +329,77 @@ int Partion(int* array, int left, int right)
 	return begin;
 }
 
+//挖坑法
+
+int Partion2(int* array, int left, int right)
+{
+	int begin = left;
+	int end = right - 1;
+
+	//找一个基准值，把数据分为俩部分
+
+	int key = array[end];
+
+	while (begin < end)
+	{
+		//让begin从前往后找比基准值大的元素
+
+		while (begin < end && array[begin] <= key)
+			begin++;
+
+		//让begin位置的元素填end位置的坑
+
+		if (begin < end)
+			array[end--] = array[begin];
+
+		//现在begin位置形成一个新的坑
+		//让end从后往前找比基准值小的元素
+
+		while (begin < end && array[end] >= key)
+			end--;
+
+		//end找到了一个比基准值小的元素
+		//让end位置的元素填begin位置的坑
+
+		if (begin < end)
+			array[begin++] = array[end];
+	}
+
+	//用基准值填最后的坑
+
+	arary[begin] = key;
+	return begin;
+}
+
+//前后指针法
+
+int Partion3(int* array, int left, int right)
+{
+	int cur = left;
+	int prev = left - 1;
+	int key = array[right-1];
+
+	while (cur < right)
+	{
+		if (array[cur] < key && ++prev != cur)
+			Swap(&array[cur], &array[prev]);
+
+		cur++;
+	}
+	if (++prev != right - 1)
+		Swap(&array[prev], &array[right - 1]);
+	return prev;
+}
+
 void QuickSort(int* array, int left, int right)
 {
+	if (right - left < 16)
+	{
+		//优化一下快排，不需要将快速排序递归到只有一个元素的情况
+
+		InSertSort(array + left, right - left);
+	}
+
 	if (right - left > 1)
 	{
 		int div = Partion(array, left, right);
@@ -314,3 +407,4 @@ void QuickSort(int* array, int left, int right)
 		QuickSort(array, div + 1, right);
 	}
 }
+
