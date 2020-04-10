@@ -312,6 +312,50 @@ bool isPalindrome(struct ListNode* head) {
 	return true;
 }
 
+//方法四：将后半段链表逆置，然后和前半段链表比较
+
+bool isPalindrome(struct ListNode* head) {
+	if (head == NULL || head->next == NULL)
+		return true;
+	int len = 0;
+	struct ListNode* cur = head;
+	struct ListNode* prev = NULL;
+
+	//找到链表中间位置
+
+	while (cur)
+	{
+		len++;
+		cur = cur->next;
+	}
+	len /= 2;
+	cur = head;
+	while (len--)
+	{
+		prev = cur;
+		cur = cur->next;
+	}
+	prev->next = NULL;
+
+	//逆置后半段
+
+	struct ListNode* newNode = reverseList(cur);
+
+	//比较
+
+	while (head)
+	{
+		if (newNode->val == head->val)
+		{
+			newNode = newNode->next;
+			head = head->next;
+		}
+		else
+			return false;
+	}
+	return true;
+}
+
 //给定一个节点，在链表中删除该节点
 
 void deleteNode(struct ListNode* node) 
