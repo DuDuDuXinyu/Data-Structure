@@ -1,4 +1,7 @@
 #include <stdio.h>
+#include <assert.h>
+#include <malloc.h>
+#include <string.h>
 
 //打印数组
 
@@ -400,6 +403,46 @@ int Partion3(int* array, int left, int right)
 	return prev;
 }
 
+//循环快排
+//调用栈来实现，栈的目的就是用来保存划分区间的从而代替递归
+
+void QuickSort(int* array, int size)
+{
+	Stack s;
+	StackInit(&s);
+
+	//将数据整体区间入栈
+
+	StackPush(&s, size);
+	StackPush(&s, 0);
+
+	int left = 0, right = 0;
+	while (!StackEmpty(&s))
+	{
+		left = StackTop(&s);
+		StackPop(&s);
+		right = StackTop(&s);
+		StackPop(&s);
+
+		if (right - left > 1)
+		{
+			int div = Partion2(array, left, right);
+
+			//div是基准的位置
+			//左侧[left,div)
+			//右侧[div+1,right)
+
+			StackPush(&s, right);
+			StackPush(&s, div+1);
+
+			StackPush(&s, div);
+			StackPush(&s, left);
+		}
+	}
+}
+
+//递归快排(递归）
+
 void QuickSort(int* array, int left, int right)
 {
 	if (right - left < 16)
@@ -417,3 +460,83 @@ void QuickSort(int* array, int left, int right)
 	}
 }
 
+//归并排序
+
+void MergeData(int* array, int left, int mid, int right, int* temp)
+{
+	int begin1 = left, end1 = mid;
+	int begin2 = mid, end2 = right;
+	int index = left;
+	
+	while (begin1 < end1 && begin2 < end2)
+	{
+		if (array[begin1] <= array[begin2])
+			temp[index++] = array[begin1++];
+		else
+			temp[index++] = array[begin2++];
+	}
+
+	while (begin1 < end1)
+		temp[index++] = array[begin1++];
+	while (begin2 < end2)
+		temp[index++] = array[begin2++];
+}
+
+void _MergeSort(int* array, int left, int right, int* temp)
+{
+	if (right - left > 1)
+	{
+		int mid = left + ((right - left) >> 1);
+		_MergeSort(array, left, mid, temp);
+		_MergeSort(array, mid, right, temp);
+		MergeData(array, left, mid, right, temp);
+		memcpy(array + left, temp + left, (right - left)*sizeof(array[0]));
+	}
+}
+
+void MergeSort(int* array, int size)
+{
+	int* temp = (int*)malloc(sizeof(int) * size);
+	if (NULL == temp)
+	{
+		assert(0);
+		return;
+	}
+	_MergeSort(array, 0, size, temp);
+	free(temp);
+}
+
+//归并排序（循环）
+
+void  MergeSortNor(int* array, int size)
+{
+	int gap = 1;
+	int* temp = (int*)malloc(sizeof(int) * size);
+	if (NULL == temp)
+	{
+		assert(0);
+		return;
+	}
+
+	while (gap < size)
+	{
+		for (int i = 0; i < size; i += 2 * gap)
+		{
+			int left = i;
+			int mid = left + gap;
+			int right = mid + gap;
+
+			//随着gap的变化，mid和right有可能越界
+
+			if (mid > size)
+				mid = size;
+			if (right > size)
+				right = size;
+
+			MergeData(array, left, mid, right, temp);
+		}
+		memcpy(array, temp, size * sizeof(int));
+		gap <<= 1;
+	}
+	free(temp);
+}
