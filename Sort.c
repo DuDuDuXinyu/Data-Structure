@@ -540,3 +540,54 @@ void  MergeSortNor(int* array, int size)
 	}
 	free(temp);
 }
+
+//计数排序
+
+void CountSort(int* array, int size)
+{
+	//统计数据范围
+	//用户如果已经告诉就不需要统计了
+
+	int minValue = array[0], maxValue = array[0];
+	for (int i = 1; i < size; i++)
+	{
+		if (array[i] < minValue)
+			minValue = array[i];
+		if (array[i] > maxValue)
+			maxValue = array[i];
+	}
+
+	//确认范围内的元素个数
+
+	int range = maxValue - minValue + 1;
+
+	//申请计数空间
+
+	int* ArrayCount = (int*)malloc(sizeof(int) * range);
+	if (NULL == ArrayCount)
+	{
+		assert(0);
+		return;
+	}
+	memset(ArrayCount, 0, range * sizeof(int));
+
+	//统计每个数字出现的个数
+
+	for (int i = 1; i < size; i++)
+	{
+		ArrayCount[array[i] - minValue]++;
+	}
+
+	//回收数据
+
+	int index = 0;
+	for (int i = 1; i < range; i++)
+	{
+		while (ArrayCount[i]--)
+		{
+			array[index++] = i + minValue;
+		}
+	}
+	
+	free(ArrayCount);
+}
