@@ -248,6 +248,7 @@ void HeapSort(int* array, int size)
 	//利用堆的思想来进行排序
 
 	int end = size - 1;
+
 	while (end)
 	{
 		Swap(&array[0], &array[end]);
