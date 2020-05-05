@@ -1,4 +1,5 @@
 #include <iostream>
+#include <assert.h>
 
 using namespace std;
 
@@ -340,17 +341,139 @@ void QuickSort(int* arr, int left, int right)
 	}
 }
 
-// 快速排序 非递归实现 void QuickSortNonR(int* a, int left, int right)
+// 归并排序递归实现 
 
-// 归并排序递归实现 void MergeSort(int* a, int n) 
-// 归并排序非递归实现 void MergeSortNonR(int* a, int n)
+void MergeData(int* arr, int left, int mid, int right, int* temp)
+{
+	int begin1 = left, end1 = mid;
+	int begin2 = mid, end2 = right;
+	int index = left;
 
-// 计数排序 void CountSort(int* a, int n
+	while (begin1 < end1 && begin2 < end2)
+	{
+		if (arr[begin1] <= arr[begin2])
+			temp[index++] = arr[begin1++];
+		else
+			temp[index++] = arr[begin2++];
+	}
+
+	while(begin1<end1)
+		temp[index++] = arr[begin1++];
+	while (begin2 < end2)
+		temp[index++] = arr[begin2++];
+}
+
+void _MergeSort(int* arr, int left, int right, int* temp)
+{
+	if (right - left > 1)
+	{
+		int mid = left + ((right - left) >> 1);
+		_MergeSort(arr, left, mid, temp);
+		_MergeSort(arr, mid, right, temp);
+		MergeData(arr, left, mid, right, temp);
+		memcpy(arr + left, temp + left, (right - left) * sizeof(arr[0]));
+
+	}
+}
+
+void MergeSort(int* arr, int size)
+{
+	int* temp = (int*)malloc(sizeof(int) * size);
+
+	if (NULL == temp)
+	{
+		//assert用来查看如果代码报错是不是由于malloc开辟产生的错误
+
+		assert(0);
+		return;
+	}
+
+	_MergeSort(arr, 0, size, temp);
+	free(temp);
+}
+// 归并排序非递归实现 
+
+void MergeSortNonR(int* arr, int size)
+{
+	int gap = 1;
+	int* temp = (int*)malloc(size * sizeof(int));
+
+	if (NULL == temp)
+	{
+		assert(0);
+		return;
+	}
+
+	while (gap < size)
+	{
+		for (int i = 0; i < size; i += 2 * gap)
+		{
+			int left = i;
+			int mid = left + gap;
+			int right = mid + gap;
+
+			if (mid > size)
+				mid = size;
+			if (right > size)
+				right = size;
+
+			MergeData(arr, left, mid, right, temp);
+		}
+		memcpy(arr, temp, size * sizeof(arr[0]));
+		gap <<= 1;
+	}
+	free(temp);
+}
+
+// 计数排序 
+
+void CountSort(int* arr, int size)
+{
+	//统计数据范围
+
+	int minValue = arr[0], maxValue = arr[0];
+	for (int i = 1; i < size; i++)
+	{
+		if (arr[i] < minValue)
+			minValue = arr[0];
+		if (arr[i] > maxValue)
+			maxValue = arr[0];
+	}
+
+	int range = maxValue - minValue + 1;
+
+	//申请空间
+
+	int* temp = (int*)malloc(sizeof(int) * range);
+
+	if (NULL == temp)
+	{
+		assert(0);
+		return;
+	}
+	memset(temp, 0, range * sizeof(int));
+	
+	//统计每一个数字出现的个数
+
+	for (int i = 0; i < size; i++)
+		temp[arr[i] - minValue]++;
+
+	//回收数据
+
+	int index = 0;
+	for (int i = 0; i < size; i++)
+	{
+		while (arr[i]--)
+			arr[index++] = i + minValue;
+	}
+	free(temp);
+}
+
 int main()
 {
 	int arr[] = { 5,8,9,0,3,1,6,2,7,4 };
 
-	QuickSort(arr, 0,sizeof(arr)/sizeof(arr[0])-1);
+	MergeSortNonR(arr, 10);
 
 	for (auto i : arr)
 		cout << arr[i] << " ";
